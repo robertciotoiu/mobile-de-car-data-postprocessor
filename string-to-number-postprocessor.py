@@ -1,41 +1,52 @@
 import os
 from pymongo import MongoClient
 
-# Connect to MongoDB
-# read the connection string from the environment variable
-clientConnection = os.environ['MONGODB_CONNECTION_STRING']
+def get_mongo_client():
+    client_connection = os.environ['MONGODB_CONNECTION_STRING']
+    return MongoClient(client_connection)
 
-client = MongoClient(clientConnection)
-db = client['dev-mobile-de-car-data']
-collection = db['listings-v2']
+def get_database(client, db_name):
+    return client[db_name]
 
-# Iterate through each car listing and transform the cubicCapacity field
-for car in collection.find():
+def get_collection(db, collection_name):
+    return db[collection_name]
+
+def create_collection_if_not_exists(db, collection_name):
+    if collection_name not in db.list_collection_names():
+        db.create_collection(collection_name)
+
+def convert_cubic_capacity_to_float(car):
     cubic_capacity = car.get('cubicCapacity', '')
     if cubic_capacity:
-        # Remove non-numeric characters (like commas, cc, etc.)
         numeric_capacity = ''.join(filter(str.isdigit, cubic_capacity.replace(",", "")))
-        print(f"Car: {car['_id']}, cubicCapacity: {cubic_capacity}, numericCapacity: {numeric_capacity}")
-
         if numeric_capacity:
-            # Update the document with the numeric value
-            # collection.update_one({'_id': car['_id']}, {'$set': {'cubicCapacity': int(numeric_capacity)}})
-            # Instead of updating the document, insert the car into a new collection with the numeric value. The new collection will be named 'listings-v2-postprocessed'
+            cubic_capacity_float = float(numeric_capacity) if numeric_capacity else None
+            return cubic_capacity_float
+    return None
 
-            # Create a new car listing with the numeric value
-            processed_car = car.copy()
-            processed_car['cubicCapacity'] = int(numeric_capacity) if numeric_capacity else None
+def process_car_listings(collection, postprocessed_collection, batch_size=1000):
+    processed_cars = []
+    for car in collection.find():
+        cubic_capacity_float = convert_cubic_capacity_to_float(car)
+        processed_car = car.copy()
+        processed_car['cubicCapacity'] = cubic_capacity_float
+        processed_cars.append(processed_car)
+        if len(processed_cars) == batch_size:
+            postprocessed_collection.insert_many(processed_cars)
+            processed_cars = []
+        
+    if processed_cars:
+        postprocessed_collection.insert_many(processed_cars)
 
-            # Check if the collection "listings-v2-postprocessed" exists. If not, create it
-            if 'listings-v2-postprocessed' not in db.list_collection_names():
-                db.create_collection('listings-v2-postprocessed')
-            postprocessed_collection = db['listings-v2-postprocessed']
 
-            # Insert the processed car into the new collection
-            postprocessed_collection.insert_one(processed_car)
+def main():
+    client = get_mongo_client()
+    db = get_database(client, 'dev-mobile-de-car-data')
+    collection = get_collection(db, 'listings-v2')
+    create_collection_if_not_exists(db, 'listings-v2-postprocessed')
+    postprocessed_collection = get_collection(db, 'listings-v2-postprocessed')
+    process_car_listings(collection, postprocessed_collection)
+    print("Post-processing complete")
 
-            # Break the for loop after processing the first car for demonstration purposes
-            break
-
-            
-
+if __name__ == "__main__":
+    main()
