@@ -10,7 +10,7 @@ class CarListingsProcessor:
 
     def process_listings(self):
         processed_cars = []
-        for car in self.collection.find():
+        for car in self.collection:
             for post_processor in self.post_processors:
                 car = post_processor.process(car)
             processed_cars.append(car)
