@@ -29,7 +29,7 @@ def download_image(query, unique_make_model_year):
 
     response = requests.get(base_url, params=params, headers=headers)
     # Sleep for 200ms to avoid hitting the API rate limit
-    time.sleep(0.2)
+    time.sleep(0.5)
     data = response.json()
 
     pages = data.get("query", {}).get("pages", {})
@@ -56,7 +56,7 @@ def download_image(query, unique_make_model_year):
     license_name = extmetadata.get("LicenseShortName", {}).get("value", "No license name available")
 
     attribution = f'{artist}, <a href="{file_href}">{file_name}</a>, <a href="{license_url}" rel="license">{license_name}</a>'
-    print(f"Attribution: {attribution}")    
+    print(f"Attribution: {attribution}")
     
     # Save the mapping between the make, model, year and the image reference
     mmy_to_image_reference.insert_one({
@@ -68,8 +68,8 @@ def download_image(query, unique_make_model_year):
     return True
 
 def download_and_save_image(image_url, file_name, attribution):
-    file_name = f"{file_name.replace(' ', '_')}.jpg"
-    file_name_full_path = os.path.join(download_path, file_name)
+    file_name_with_extension = f"{file_name.replace(' ', '_')}.jpg"
+    file_name_full_path = os.path.join(download_path, file_name_with_extension)
 
     if os.path.exists(file_name_full_path):
         print(f"Image already downloaded as {file_name_full_path}")
@@ -97,18 +97,16 @@ def fallback_method(query):
     print(f"No image found for query: {query}")
     # Implement fallback logic here
 
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('mongodb://root:fH9xWpuB43@kubernetes.docker.internal:30017/?authSource=admin&tls=false&directConnection=true')
 db = client['nextca']
 attribution_collection = db['car_image_attribution']
 mmy_to_image_reference = db['mmy_to_image_reference']
 
-download_path = "src/image-downloader/images/"
+download_path = "/mnt/e/data/nextca-car-images/"
 if not os.path.exists(download_path):
     os.makedirs(download_path)
 
-if __name__ == "__main__":
-    query = "Wiesmann MF 4 2006"
-    
+if __name__ == "__main__":    
     # Read the list of unique make, model, year combinations from unique_make_model_year.txt into a list without BMW make
     with open('src/image-downloader/unique_make_model_year.txt', 'r') as file:
         unique_make_model_year = [line.strip() for line in file.readlines() if not line.startswith('BMW')]
@@ -127,7 +125,12 @@ if __name__ == "__main__":
 
     # Download images for each element in unique_make_model_year
     for i, query in enumerate(unique_make_model_year):
-        if i >= 5:
+        # If query exists in MongoDB, skip it
+        if mmy_to_image_reference.find_one({"make_model_year": query}):
+            print(f"Image already downloaded for {query}")
+            continue
+
+        if i >= 6:
             break
         # First query with the year, we need to remove : from the query
         firstQuery = query.replace(' : ', ' ').strip()
