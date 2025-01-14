@@ -1,0 +1,100 @@
+3 Series : 1975–1983 : E21  
+3 Series : 1982–1994 : E30  
+3 Series : 1990–2000 : E36  
+3 Series : 1998–2006 : E46  
+3 Series : 2005–2013 : E90/E91/E92/E93  
+3 Series : 2011–2019 : F30/F31/F34  
+3 Series : 2018–present : G20/G21  
+
+4 Series : 2013–2020 : F32/F33/F36  
+4 Series : 2020–present : G22/G23/G26  
+
+5 Series : 1972–1981 : E12  
+5 Series : 1981–1988 : E28  
+5 Series : 1987–1996 : E34  
+5 Series : 1995–2004 : E39  
+5 Series : 2003–2010 : E60/E61  
+5 Series : 2010–2017 : F10/F11/F07  
+5 Series : 2017–present : G30/G31  
+
+6 Series : 1976–1989 : E24  
+6 Series : 2003–2010 : E63/E64  
+6 Series : 2011–2018 : F12/F13/F06  
+6 Series : 2017–present : G32  
+
+7 Series : 1977–1986 : E23  
+7 Series : 1986–1994 : E32  
+7 Series : 1994–2001 : E38  
+7 Series : 2001–2008 : E65/E66  
+7 Series : 2008–2015 : F01/F02  
+7 Series : 2015–2022 : G11/G12  
+7 Series : 2022–present : G70  
+
+8 Series : 1989–1999 : E31  
+8 Series : 2018–present : G14/G15/G16  
+
+1 Series : 2004–2013 : E81/E82/E87/E88  
+1 Series : 2011–2019 : F20/F21  
+1 Series : 2019–present : F40  
+
+2 Series : 2014–2021 : F22/F23/F87  
+2 Series : 2021–present : G42  
+2 Series : 2014–2021 : F45/F46  
+2 Series : 2021–present : U06  
+
+X1 : 2009–2015 : E84  
+X1 : 2015–2022 : F48/F49  
+X1 : 2022–present : U11  
+
+X2 : 2018–present : F39  
+
+X3 : 2003–2010 : E83  
+X3 : 2010–2017 : F25  
+X3 : 2017–present : G01  
+
+X4 : 2014–2018 : F26  
+X4 : 2018–present : G02  
+
+X5 : 1999–2006 : E53  
+X5 : 2006–2013 : E70  
+X5 : 2013–2018 : F15  
+X5 : 2018–present : G05  
+
+X6 : 2008–2014 : E71  
+X6 : 2014–2019 : F16  
+X6 : 2019–present : G06  
+
+X7 : 2018–present : G07  
+
+Z3 : 1995–2002 : E36/7 || E36/8  
+Z4 : 2002–2008 : E85/E86  
+Z4 : 2009–2016 : E89  
+Z4 : 2018–present : G29  
+
+M1 : 1978–1981 : E26  
+M3 : 1986–1992 : E30  
+M3 : 1992–1999 : E36  
+M3 : 2000–2006 : E46  
+M3 : 2007–2013 : E90/E92  
+M3 : 2014–2019 : F80  
+M3 : 2020–present : G80  
+
+M4 : 2014–2020 : F82/F83  
+M4 : 2020–present : G82/G83  
+
+M5 : 1984–1988 : E28  
+M5 : 1989–1995 : E34  
+M5 : 1998–2003 : E39  
+M5 : 2005–2010 : E60  
+M5 : 2011–2016 : F10  
+M5 : 2017–2023 : F90  
+M5 : 2024-present : G90/G99 
+
+i3 : 2013–2022 : I01  
+i4 : 2021–present : G26  
+i8 : 2014–2020 : I12/I15  
+
+iX3 : 2020–present : G08  
+iX : 2021–present : I20  
+
+XM : 2022–present : G09  
